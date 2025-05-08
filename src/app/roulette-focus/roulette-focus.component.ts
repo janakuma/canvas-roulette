@@ -39,8 +39,8 @@ export class RouletteFocusComponent {
         // 상단 우측(45도)에서 1번 섹터 시작, 시계방향
         // 1번 섹터 중심이 45도, 범위는 22.5~67.5도
         // 오프셋: 45+22.5=67.5도(1번 섹터 시작점)
-        const cwAngle = (360 - angle + 67.5) % 360;
-        const sector = Math.floor(cwAngle / 45);
+        const cwAngle = (360 + angle - 270) % 360;
+        const sector = Math.floor(cwAngle / 45) + 1;
 
         this.clickedSector = sector;
         console.log(`섹터: ${sector}`);
