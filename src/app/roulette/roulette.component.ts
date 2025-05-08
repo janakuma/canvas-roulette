@@ -1,47 +1,11 @@
-import {
-    Component,
-    ElementRef,
-    ViewChild,
-    AfterViewInit,
-    Input,
-    OnChanges,
-    SimpleChanges,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
     selector: 'app-roulette',
-    template: `
-        <div class="roulette-container">
-            <canvas #rouletteCanvas></canvas>
-            <button (click)="spin()">START</button>
-        </div>
-    `,
-    styles: [
-        `
-            .roulette-container {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-            button {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 120px;
-                height: 120px;
-                border-radius: 50%;
-                background-color: #fff;
-                border: 2px solid #666;
-                font-size: 16px;
-                cursor: pointer;
-            }
-        `,
-    ],
+    templateUrl: './roulette.component.html',
+    styleUrls: ['./roulette.component.scss'],
 })
-export class RouletteComponent implements AfterViewInit, OnChanges {
+export class RouletteComponent implements AfterViewInit {
     @ViewChild('rouletteCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
     private canvas!: HTMLCanvasElement;
@@ -78,37 +42,27 @@ export class RouletteComponent implements AfterViewInit, OnChanges {
         this.initCanvas();
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (this.canvas && (changes['sections'] || changes['texts'])) {
-            this.drawRoulette();
-        }
-    }
-
     private async loadImages() {
-        const loadImage = (url: string): Promise<HTMLImageElement> => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.onerror = reject;
-                img.src = url;
-            });
-        };
+        const defaultImage =
+            'https://i.namu.wiki/i/EDqvf4gB4ghRHWfmk2dxZDfA-_vGjplyFQqHDMhgFf_qZ9u_RJcYsWmpxWnXYevLdNtMQjX2hnPyk97QBaaaIg.webp';
 
-        try {
-            this.loadedImages = await Promise.all(
-                this.imageUrls.map((url) => loadImage(url))
-            );
-        } catch (error) {
-            console.error('이미지 로딩 실패:', error);
-            // 기본 이미지로 대체
-            this.loadedImages = await Promise.all(
-                this.imageUrls.map(() =>
-                    loadImage(
-                        'https://i.namu.wiki/i/EDqvf4gB4ghRHWfmk2dxZDfA-_vGjplyFQqHDMhgFf_qZ9u_RJcYsWmpxWnXYevLdNtMQjX2hnPyk97QBaaaIg.webp'
-                    )
-                )
-            );
-        }
+        this.loadedImages = await Promise.all(
+            this.imageUrls.map(async (url) => {
+                const img = new Image();
+                try {
+                    await new Promise((resolve, reject) => {
+                        img.onload = resolve;
+                        img.onerror = reject;
+                        img.src = url;
+                    });
+                    return img;
+                } catch {
+                    img.src = defaultImage;
+                    await new Promise((resolve) => (img.onload = resolve));
+                    return img;
+                }
+            })
+        );
     }
 
     private initCanvas() {
