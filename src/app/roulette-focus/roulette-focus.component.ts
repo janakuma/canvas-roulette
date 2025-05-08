@@ -32,15 +32,13 @@ export class RouletteFocusComponent {
             return;
         }
 
-        // atan2: 0도는 오른쪽, 90도는 아래, 180도는 왼쪽, 270도는 위
-        let angle = (Math.atan2(dy, dx) * 180) / Math.PI;
-        if (angle < 0) angle += 360;
+        // 각도 계산 (0도는 오른쪽, 90도는 아래, 180도는 왼쪽, 270도는 위)
+        const angle = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360;
 
-        // 상단 우측(45도)에서 1번 섹터 시작, 시계방향
-        // 1번 섹터 중심이 45도, 범위는 22.5~67.5도
-        // 오프셋: 45+22.5=67.5도(1번 섹터 시작점)
-        const cwAngle = (360 + angle - 270) % 360;
-        const sector = Math.floor(cwAngle / 45) + 1;
+        // 시계방향으로 변환 (1번 섹터가 45도에서 시작)
+        // 270도를 빼서 0도를 상단으로 맞춤
+        const cwAngle = (angle - 270 + 360) % 360;
+        const sector = Math.floor(cwAngle / 45);
 
         this.clickedSector = sector;
         console.log(`섹터: ${sector}`);

@@ -66,12 +66,25 @@
     }
 }
 
-.focused {
+.focused,
+.highlight {
     position: absolute;
     top: 0;
     left: 0;
     width: 600px;
     height: 600px;
+    background: no-repeat 0 0 / cover;
+}
+
+.focused {
     background-image: url(../../assets/roulette-focus/roulette-focused.png);
-    transform: rotate(112.5deg);
+}
+
+.highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 600px;
+    background-image: url(../../assets/roulette-focus/roulette-highlight.png);
 }
