@@ -1,0 +1,23 @@
+<div #circle class="roulette-focus-container" (click)="onCircleClick($event)">
+    <ol>
+        <li class="roulette-side-1">1</li>
+        <li class="roulette-side-2 best">2</li>
+        <li class="roulette-side-3"></li>
+        <li class="roulette-side-4 best"></li>
+        <li class="roulette-side-5"></li>
+        <li class="roulette-side-6 best"></li>
+        <li class="roulette-side-7"></li>
+        <li class="roulette-side-8 best"></li>
+    </ol>
+
+    <!-- <div
+        class="focused"
+        [style.transform]="
+            clickedSector !== null
+                ? 'rotate(' + clickedSector * 45 + 'deg)'
+                : ''
+        "
+    ></div> -->
+</div>
+
+{{ clickedSector }}

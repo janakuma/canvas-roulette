@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:host {
+    display: inline-block;
+}
+
+.roulette-focus-container {
+    position: relative;
+    width: 600px;
+    height: 600px;
+
+    ol {
+        list-style: none;
+
+        width: 600px;
+        height: 600px;
+        transform: rotate(-22.5deg);
+
+        li {
+            position: absolute;
+            display: flex;
+            align-items: center;
+
+            width: inherit;
+            height: inherit;
+            background: url(../../assets/roulette-focus/roulette-good.png)
+                no-repeat 0 0 / cover;
+
+            &.better {
+                background-image: url(../../assets/roulette-focus/roulette-better.png);
+            }
+
+            &.best {
+                background-image: url(../../assets/roulette-focus/roulette-best.png);
+            }
+        }
+
+        li {
+            &.roulette-side-1 {
+                transform: rotate(0deg);
+            }
+            &.roulette-side-2 {
+                transform: rotate(45deg);
+            }
+            &.roulette-side-3 {
+                transform: rotate(90deg);
+            }
+            &.roulette-side-4 {
+                transform: rotate(135deg);
+            }
+            &.roulette-side-5 {
+                transform: rotate(180deg);
+            }
+            &.roulette-side-6 {
+                transform: rotate(225deg);
+            }
+            &.roulette-side-7 {
+                transform: rotate(270deg);
+            }
+            &.roulette-side-8 {
+                transform: rotate(315deg);
+            }
+        }
+    }
+}
+
+.focused {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 600px;
+    background-image: url(../../assets/roulette-focus/roulette-focused.png);
+    transform: rotate(112.5deg);
+}
