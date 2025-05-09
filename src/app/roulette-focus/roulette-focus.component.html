@@ -4,20 +4,20 @@
             *ngFor="let sector of rouletteSectors; let i = index"
             class="roulette-sector"
             [class]="sector.rouletteTier"
-            [style.transform]="'rotate(' + i * 45 + 'deg)'"
+            [style.transform]="'rotate(' + i * sectorAngle + 'deg)'"
         ></li>
     </ol>
 
     <div
         class="sector-highlight"
-        [style.transform]="'rotate(' + highlightSector * 45 + 'deg)'"
+        [style.transform]="'rotate(' + highlightSector * sectorAngle + 'deg)'"
     ></div>
     `
     <div
         class="sector-focused"
         [style.transform]="
             clickedSector !== null
-                ? 'rotate(' + clickedSector * 45 + 'deg)'
+                ? 'rotate(' + clickedSector * sectorAngle + 'deg)'
                 : ''
         "
     ></div>

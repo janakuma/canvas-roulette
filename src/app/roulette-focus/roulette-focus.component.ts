@@ -1,9 +1,10 @@
 import { Component, ElementRef, ViewChild, Input } from '@angular/core';
 
-// 매직 넘버 상수화
 const SECTOR_COUNT = 8;
 const SECTOR_ANGLE = 360 / SECTOR_COUNT;
 const CENTER_IGNORE_RADIUS = 10;
+const TOTAL_DURATION = 5000;
+const TOTAL_SPINS = 20;
 
 interface RouletteSector {
     id: number;
@@ -24,30 +25,30 @@ export class RouletteFocusComponent {
     isSpinning: boolean = false;
 
     // 애니메이션 관련 값 외부에서 조정 가능하게
-    @Input() totalDuration: number = 5000;
-    @Input() totalSpins: number = 20;
     @Input() targetSector: number = 0; // 0~7 번 섹터에서 멈추도록 설정
 
-    // 섹터 데이터 수정
+    // 섹터 데이터 수정 (데이터에 맞게 수정 필요)
     rouletteSectors: RouletteSector[] = [
-        { id: 1, item: '', rouletteTier: 'good' },
-        { id: 2, item: '', rouletteTier: 'best' },
-        { id: 3, item: '', rouletteTier: 'good' },
-        { id: 4, item: '', rouletteTier: 'better' },
-        { id: 5, item: '', rouletteTier: 'good' },
-        { id: 6, item: '', rouletteTier: 'best' },
-        { id: 7, item: '', rouletteTier: 'good' },
-        { id: 8, item: '', rouletteTier: 'better' },
+        { id: 0, item: '', rouletteTier: 'good' },
+        { id: 1, item: '', rouletteTier: 'best' },
+        { id: 2, item: '', rouletteTier: 'good' },
+        { id: 3, item: '', rouletteTier: 'better' },
+        { id: 4, item: '', rouletteTier: 'good' },
+        { id: 5, item: '', rouletteTier: 'best' },
+        { id: 6, item: '', rouletteTier: 'good' },
+        { id: 7, item: '', rouletteTier: 'better' },
     ];
 
-    // 이징 함수 분리
+    public sectorAngle = SECTOR_ANGLE;
+
+    // easing 함수 분리
     private easeInOutQuad(t: number): number {
         return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     }
 
     // 각도 → 섹터 변환 함수
     private getSectorFromAngle(angle: number): number {
-        return Math.floor(angle / SECTOR_ANGLE);
+        return Math.floor(angle / this.sectorAngle);
     }
 
     // 거리 계산 함수
@@ -106,9 +107,9 @@ export class RouletteFocusComponent {
         this.highlightSector = 0;
 
         const config = {
-            totalDuration: this.totalDuration,
+            totalDuration: TOTAL_DURATION,
             totalSectors: SECTOR_COUNT,
-            totalSpins: this.totalSpins,
+            totalSpins: TOTAL_SPINS,
             easing: (t: number) => this.easeInOutQuad(t),
         };
 
