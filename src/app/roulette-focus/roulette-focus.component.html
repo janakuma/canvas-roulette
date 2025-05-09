@@ -1,4 +1,4 @@
-<div #circle class="roulette-focus-container" (click)="onCircleClick($event)">
+<div #roulette class="roulette-focus-container" (click)="onCircleClick($event)">
     <ol>
         <li class="roulette-side-1">1</li>
         <li class="roulette-side-2 best">2</li>
@@ -10,8 +10,10 @@
         <li class="roulette-side-8 best"></li>
     </ol>
 
-    <div class="highlight"></div>
-
+    <div
+        class="highlight"
+        [style.transform]="'rotate(' + highlightSector * 45 + 'deg)'"
+    ></div>
     <div
         class="focused"
         [style.transform]="
@@ -20,6 +22,10 @@
                 : ''
         "
     ></div>
+
+    <strong class="roulette-start-button" (click)="startRoulette()">
+        START
+    </strong>
 </div>
 
-{{ clickedSector }}
+<strong class="clicked-sector"> Selected: {{ clickedSector }} </strong>

@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-:host {
-    display: inline-block;
-}
-
 .roulette-focus-container {
     position: relative;
     width: 600px;
@@ -81,10 +77,31 @@
 }
 
 .highlight {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 600px;
-    height: 600px;
     background-image: url(../../assets/roulette-focus/roulette-highlight.png);
+}
+
+.roulette-start-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 140px;
+    height: 140px;
+    background: #fff;
+    border-radius: 50%;
+    border: 5px solid #333;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: flex;
+}
+
+.clicked-sector {
+    display: block;
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: center;
 }
