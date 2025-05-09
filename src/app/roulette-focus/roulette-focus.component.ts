@@ -26,6 +26,7 @@ export class RouletteFocusComponent {
     // 애니메이션 관련 값 외부에서 조정 가능하게
     @Input() totalDuration: number = 5000;
     @Input() totalSpins: number = 20;
+    @Input() targetSector: number = 0; // 0~7 번 섹터에서 멈추도록 설정
 
     // 섹터 데이터 수정
     rouletteSectors: RouletteSector[] = [
@@ -97,6 +98,13 @@ export class RouletteFocusComponent {
         if (this.isSpinning) return;
         this.isSpinning = true;
 
+        // 목표 섹터: 클릭된 섹터가 있으면 그 섹터, 없으면 랜덤
+        const targetSector = this.targetSector;
+
+        // 시작 시 sector-focused는 0도에서 시작
+        this.clickedSector = 0;
+        this.highlightSector = 0;
+
         const config = {
             totalDuration: this.totalDuration,
             totalSectors: SECTOR_COUNT,
@@ -105,23 +113,24 @@ export class RouletteFocusComponent {
         };
 
         const startTime = performance.now();
+        const totalSteps =
+            config.totalSpins * config.totalSectors + targetSector;
 
         const animate = (now: number) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / config.totalDuration, 1);
             const t = config.easing(progress);
 
-            // 현재 섹터 계산: 진행률에 따라 점점 느려지게 회전
-            const currentSector = Math.floor(
-                (config.totalSpins * config.totalSectors * t) %
-                    config.totalSectors
-            );
+            // 전체 회전 각도: 마지막에 targetSector에서 멈추도록
+            const currentStep = Math.floor(totalSteps * t);
+            const currentSector = currentStep % config.totalSectors;
             this.highlightSector = currentSector;
 
             if (progress < 1) {
                 requestAnimationFrame(animate);
             } else {
                 this.isSpinning = false;
+                this.clickedSector = targetSector; // sector-focused도 최종 위치로
             }
         };
 
