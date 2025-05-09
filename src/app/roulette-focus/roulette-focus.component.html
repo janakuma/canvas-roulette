@@ -1,21 +1,20 @@
-<div #roulette class="roulette-focus-container" (click)="onCircleClick($event)">
-    <ol>
-        <li class="roulette-side-1">1</li>
-        <li class="roulette-side-2 best">2</li>
-        <li class="roulette-side-3"></li>
-        <li class="roulette-side-4 best"></li>
-        <li class="roulette-side-5"></li>
-        <li class="roulette-side-6 best"></li>
-        <li class="roulette-side-7"></li>
-        <li class="roulette-side-8 best"></li>
+<div #roulette class="roulette-container" (click)="onCircleClick($event)">
+    <ol class="roulette-sectors">
+        <li
+            *ngFor="let sector of rouletteSectors; let i = index"
+            class="roulette-sector"
+            [class]="sector.rouletteTier"
+            [style.transform]="'rotate(' + i * 45 + 'deg)'"
+        ></li>
     </ol>
 
     <div
-        class="highlight"
+        class="sector-highlight"
         [style.transform]="'rotate(' + highlightSector * 45 + 'deg)'"
     ></div>
+    `
     <div
-        class="focused"
+        class="sector-focused"
         [style.transform]="
             clickedSector !== null
                 ? 'rotate(' + clickedSector * 45 + 'deg)'
@@ -23,7 +22,11 @@
         "
     ></div>
 
-    <strong class="roulette-start-button" (click)="startRoulette()">
+    <strong
+        class="roulette-start-button"
+        (click)="startRoulette()"
+        [class.disabled]="isSpinning"
+    >
         START
     </strong>
 </div>

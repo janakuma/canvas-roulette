@@ -1,26 +1,48 @@
+@use 'sass:math';
+
+/*
+  w: (width / 1920) * 100;
+  h: (height / 1080) * 100;
+*/
+
+/* Default Screen */
+$win_w: 1920;
+$win_h: 1080;
+
+/* Change width: vw*/
+@function calc_vw($val) {
+    @return math.div($val, $win_w) * 100;
+}
+
+/* Change height: vh*/
+@function calc_vh($val) {
+    @return math.div($val, $win_h) * 100;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.roulette-focus-container {
+ol {
+    list-style: none;
+}
+
+$roulette-diameter: calc_vh(600vh);
+.roulette-container {
     position: relative;
-    width: 600px;
-    height: 600px;
+    width: $roulette-diameter;
+    height: $roulette-diameter;
 
-    ol {
-        list-style: none;
-        width: 600px;
-        height: 600px;
+    ol.roulette-sectors {
+        width: 100%;
+        height: 100%;
 
-        li {
+        li.roulette-sector {
             position: absolute;
-            display: flex;
-            align-items: center;
-
-            width: inherit;
-            height: inherit;
+            width: 100%;
+            height: 100%;
             background: url(../../assets/roulette-focus/roulette-good.png)
                 no-repeat 0 0 / cover;
 
@@ -32,51 +54,24 @@
                 background-image: url(../../assets/roulette-focus/roulette-best.png);
             }
         }
-
-        li {
-            &.roulette-side-1 {
-                transform: rotate(0deg);
-            }
-            &.roulette-side-2 {
-                transform: rotate(45deg);
-            }
-            &.roulette-side-3 {
-                transform: rotate(90deg);
-            }
-            &.roulette-side-4 {
-                transform: rotate(135deg);
-            }
-            &.roulette-side-5 {
-                transform: rotate(180deg);
-            }
-            &.roulette-side-6 {
-                transform: rotate(225deg);
-            }
-            &.roulette-side-7 {
-                transform: rotate(270deg);
-            }
-            &.roulette-side-8 {
-                transform: rotate(315deg);
-            }
-        }
     }
 }
 
-.focused,
-.highlight {
+.sector-focused,
+.sector-highlight {
     position: absolute;
     top: 0;
     left: 0;
-    width: 600px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
     background: no-repeat 0 0 / cover;
 }
 
-.focused {
+.sector-focused {
     background-image: url(../../assets/roulette-focus/roulette-focused.png);
 }
 
-.highlight {
+.sector-highlight {
     background-image: url(../../assets/roulette-focus/roulette-highlight.png);
 }
 
@@ -84,24 +79,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
-    font-weight: bold;
+    font-size: calc_vh(26vh);
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 140px;
-    height: 140px;
+    width: calc_vh(140vh);
+    height: calc_vh(140vh);
     background: #fff;
     border-radius: 50%;
     border: 5px solid #333;
     transform: translate(-50%, -50%);
     cursor: pointer;
     display: flex;
+    cursor: pointer;
+
+    &.disabled {
+        pointer-events: none;
+        background: #999;
+        cursor: none;
+    }
 }
 
 .clicked-sector {
     display: block;
-    margin-top: 20px;
-    font-size: 24px;
+    margin-top: calc_vh(20vh);
+    font-size: calc_vh(24vh);
     text-align: center;
 }
